@@ -1,0 +1,9 @@
+<todo-list
+    [items]="items$ | async"
+    (addItem)="onAddItem($event)"
+    (updateItem)="onUpdateItem($event)"
+    (deleteItem)="onDeleteItem($event)"
+    (completeItem)="onCompleteItem($event)"
+    (uncompleteItem)="onUncompleteItem($event)"
+    (clearCompleted)="onClearCompleted()"
+></todo-list>

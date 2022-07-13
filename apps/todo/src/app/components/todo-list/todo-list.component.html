@@ -1,0 +1,54 @@
+<mat-card>
+    <mat-card-title>To Do List</mat-card-title>
+
+    <mat-card-content>
+        <input
+            #addInput
+            class="new-item"
+            placeholder="Add a new task, then press enter"
+            autofocus=""
+            (keyup.enter)="onAddItem(addInput.value); addInput.value = ''"
+        />
+        <mat-list class="task-list">
+            <mat-list-item
+                [class.editing]="item.isEditing"
+                [class.completed]="item.isCompleted"
+                *ngFor="let item of items; let ix = index"
+            >
+                <div class="view">
+                    <mat-checkbox
+                        [checked]="item.isCompleted"
+                        (change)="onChange($event, ix)"
+                    ></mat-checkbox>
+                    <label (click)="onHandleClick(ix)">{{ item.name }}</label>
+                    <button
+                        mat-icon-button
+                        color="warn"
+                        (click)="onRemoveItem(ix)"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+                <input
+                    #editInput
+                    *ngIf="item.isEditing"
+                    class="edit"
+                    [value]="item.name"
+                    (blur)="onUpdateItem(item, editInput.value, ix)"
+                    (keyup.enter)="onUpdateItem(item, editInput.value, ix)"
+                    (keyup.escape)="item.isEditing = false"
+                />
+            </mat-list-item>
+        </mat-list>
+
+        <footer class="footer" *ngIf="items !== null && items.length > 0">
+            <a
+                mat-button
+                class="clear"
+                *ngIf="areAnyCompleted()"
+                (click)="onClearCompleted()"
+                >Clear Completed</a
+            >
+        </footer>
+    </mat-card-content>
+</mat-card>
